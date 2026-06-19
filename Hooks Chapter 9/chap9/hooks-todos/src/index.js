@@ -3,33 +3,18 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-// import * as serviceWorker from './serviceWorker';
+// Imports compiled Bootstrap stylesheet variables layout to enable class styles application globally
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-// export const UserContext = React.createContext();
-// const username = 'John Doe';
-
-// const root = ReactDOM.createRoot(document.getElementById('root'));
-// root.render(
-//   <React.StrictMode>
-//     <UserContext.Provider value={username}>
-//       <App />
-//     </UserContext.Provider>
-//   </React.StrictMode>
-// );
-
-// // If you want to start measuring performance in your app, pass a function
-// // to log results (for example: reportWebVitals(console.log))
-// // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-// reportWebVitals();
-
+// Targets structural root HTML element insertion placeholder target point within index.html
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
+  // StrictMode wrapper runs supplementary development-only tracking checks over underlying child elements
   <React.StrictMode>
     <App />
   </React.StrictMode>,
 );
 
-// serviceWorker.unregister();
+// Triggers performance reporting metrics pipeline engine
 reportWebVitals();

@@ -1,58 +1,73 @@
 import './App.css';
 import React, { useReducer } from 'react';
 import ToDoList from './ToDoList';
-import { v4 as uuidv4 } from 'uuid'; // generates a guaranteed unique ID for each new todo
+import { v4 as uuidv4 } from 'uuid'; // Generates a guaranteed unique ID for each new todo
 
+// 1. INITIAL STATE
+// Defines the starting structure of our application state.
 const todosInitialState = {
     todos: []
 };
 
+// 2. REDUCER FUNCTION
+// A pure function that takes the current state and an action, then returns a brand-new state object.
+// It manages all state mutations safely without directly changing the original state history.
 function todosReducer(state, action) {
     switch (action.type) {
-        // Each case wrapped in {} to give it its own block scope — not in textbook but best practice.
-        // Without {}, 'const' variables declared in one case are technically visible in others,
-        // which can cause unexpected errors if two cases use the same variable name.
+        // Each case is wrapped in curly braces {} to give it its own block scope.
+        // This prevents variables declared inside a case (like 'updatedToDos') from bleeding into other cases.
+        
         case 'get': {
+            // Populates the state with todos fetched from the API backend
             return { ...state, todos: action.payload };
         }
+        
         case 'add': {
-            // const newToDo = { id: uuidv4(), text: action.payload }; // new todo: unique id + typed text
-            const addedToDos = [...state.todos, action.payload];            // spread existing todos, append new one
-            return { ...state, todos: addedToDos };                  // return new state — never mutate directly
+            // Spreads the existing todos array and appends the new todo item received in the payload
+            const addedToDos = [...state.todos, action.payload];            
+            return { ...state, todos: addedToDos };                  
         }
 
         case 'delete': {
-            // returns a new array excluding the todo whose id matches the dispatched payload
+            // Filters out the specific todo whose ID matches the payload's ID, leaving all others intact
             const filteredTodoState = state.todos.filter(todo => todo.id !== action.payload.id);
             return { ...state, todos: filteredTodoState };
         }
 
         case 'edit': {
-            const updatedToDo = { ...action.payload }; // spread payload to get the updated todo (new text, same id)
+            // Spreads payload to create a new object containing the updated text but retaining the same ID
+            const updatedToDo = { ...action.payload }; 
 
-            // locate the position of the todo being edited
+            // Finds the precise index position of the todo being edited within the array
             const updatedToDoIndex = state.todos.findIndex(t => t.id === action.payload.id);
 
-            // rebuild array: all todos before the edited one + updated todo + all todos after it
+            // Rebuilds the state array non-destructively:
+            // Combines everything before the edited todo + the updated todo + everything after it
             const updatedToDos = [
-                ...state.todos.slice(0, updatedToDoIndex), // everything before
-                updatedToDo,                                // replaced with updated version
-                ...state.todos.slice(updatedToDoIndex + 1) // everything after
+                ...state.todos.slice(0, updatedToDoIndex), 
+                updatedToDo,                                
+                ...state.todos.slice(updatedToDoIndex + 1) 
             ];
             return { ...state, todos: updatedToDos };
         }
 
         default:
-            return todosInitialState; // resets back to the 3 hardcoded starter todos
+            // Fallback safety net. Returns the original state structure if an unknown action type is dispatched.
+            return todosInitialState; 
     }
 }
 
+// 3. CONTEXT CREATION
+// Creates a context object that will be used to pass the global state and dispatch function down the component tree.
 export const TodosContext = React.createContext();
 
 function App() {
+    // Initializes useReducer with our reducer function and its baseline initial state
     const [state, dispatch] = useReducer(todosReducer, todosInitialState);
 
     return (
+        // Provider wrapper makes 'state' and 'dispatch' accessible to any nested component (like ToDoList)
+        // without manually passing them down via props (Props Drilling).
         <TodosContext.Provider value={{ state, dispatch }}>
             <ToDoList />
         </TodosContext.Provider>
@@ -60,61 +75,3 @@ function App() {
 }
 
 export default App;
-
-
-
-
-
-
-
-// import logo from './logo.svg';
-// import './App.css';
-// // import React, { useContext } from 'react';
-// // import { UserContext } from './index';
-// import React, { useReducer } from 'react';
-// import { Button } from 'react-bootstrap';
-
-// const initialState = {
-//   count: 0
-// }
-
-// function App() {
-//   const [state, dispatch] = useReducer(reducer, initialState);
-
-//   return (
-//     <div>
-//       Count: {state.count}
-
-//       <br />
-
-//       <Button onClick ={() => dispatch({type: 'increment'}) }>
-//         Increment
-//       </Button>
-
-//       <Button variant="secondary" onClick ={() => dispatch({type: 'decrement'}) }>
-//         Decrement
-//       </Button>
-
-//       <Button variant="success" onClick={() => dispatch({type: 'reset'}) }>
-//         Reset
-//       </Button>
-
-//     </div>
-//   );
-// }
-
-// function reducer(state, action) {
-//   switch (action.type) {
-//     case 'increment':
-//       return { count: state.count + 1 };
-//     case 'decrement':
-//       return { count: state.count - 1 };
-//     case 'reset':
-//       return initialState;
-//     default:
-//       return initialState;  
-//   }
-// }
-
-
-// export default App;

@@ -1,17 +1,23 @@
+// Beginning React (Greg Lim) — Chapter 4: Application entry point
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import './index.css'; // Global CSS styles for the application
+import App from './App'; // Import the main root component
+import reportWebVitals from './reportWebVitals'; // Performance monitoring tool
 
+// 1. Target the 'root' div element inside your public/index.html file.
+// 2. Create the React root entry point using the new React 18+ createRoot API.
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+// Render the application UI tree inside the React root element.
 root.render(
+  // React.StrictMode is a development-only wrapper that helps catch bugs early by 
+  // double-rendering components and warning about deprecated practices.
   <React.StrictMode>
-    <App />
+    <App /> {/* The top-level component that kicks off our app UI */}
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+// Optional: Measures application performance (e.g., page load speeds, render times).
 reportWebVitals();

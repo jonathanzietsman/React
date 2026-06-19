@@ -1,100 +1,112 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { TodosContext } from './App';
-// Container, Card, Badge added for layout and visual polish — not in textbook
+// Import structural and styling components from React-Bootstrap
 import { Table, Form, Button, Container, Card, Badge } from 'react-bootstrap';
 import useAPI from './useAPI'
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 
 function ToDoList() {
+    // Consumes global state and dispatch capabilities from our App-level Context
     const { state, dispatch } = useContext(TodosContext);
 
-    const [todoText, setTodoText] = useState("");    // stores current value of the text input
-    const [editMode, setEditMode] = useState(false); // toggles between add and edit mode
-    const [editTodo, setEditTodo] = useState(null);  // holds the todo object currently being edited
+    // LOCAL STATE MANAGEMENT (UI Specific State)
+    const [todoText, setTodoText] = useState("");    // Tracks live text input from the user form
+    const [editMode, setEditMode] = useState(false); // Flags whether the form is in "Add" or "Edit" mode
+    const [editTodo, setEditTodo] = useState(null);  // Stores the complete todo object currently being edited
 
-    // Dynamically changes the submit button label based on current mode — from textbook
+    // Dynamically adjusts button copy based on the current form operation state
     const buttonTitle = editMode ? "Save Edit" : "Add Todo";
 
-
+    // API ENDPOINT CONFIGURATION
     const endpoint = "http://localhost:3000/todos"
-    const savedTodos = useAPI(endpoint)
+    const savedTodos = useAPI(endpoint) // Custom hook triggers a GET request to harvest DB data
 
+    // Synchronization Hook: Whenever the database payload updates, update our Reducer's global state
     useEffect(() => {
         dispatch({ type: 'get', payload: savedTodos });
     }, [savedTodos]);
 
 
-    // Resets form and exits edit mode — not in textbook, added for usability
+    // Form cleanup tool that clears UI state and terminates editing operations gracefully
     const handleCancel = () => {
         setEditMode(false);
         setEditTodo(null);
         setTodoText("");
     };
 
+    // FORM SUBMISSION HANDLER
     const handleSubmit = async event => {
-        event.preventDefault();
+        event.preventDefault(); // Blocks default HTML page refresh behavior on form submit
 
         if (editMode) {
+            // OPTION A: EDIT MODE ACTIVE
+            // 1. Issues a persistent PATCH request to modify the specific todo item text inside db.json
             await axios.patch(`${endpoint}/${editTodo.id}`, {text: todoText})
-            // spread editTodo to preserve id and completed fields, then override text with new input
+            
+            // 2. Synchronizes our local UI state view by dispatching the update payload to the Reducer
             dispatch({ type: 'edit', payload: { ...editTodo, text: todoText } });
+            
+            // 3. Clear application UI editing flags
             setEditMode(false);
             setEditTodo(null);
         } else {
+            // OPTION B: ADD MODE ACTIVE
+            // 1. Constructs a standard new todo object structure with a unique UUID
             const newToDo = {id: uuidv4(), text: todoText}
+            
+            // 2. Persists the item directly to the mock backend DB via an asynchronous POST request
             await axios.post(endpoint, newToDo)
+            
+            // 3. Appends the new item to the user's interface state
             dispatch({ type: 'add', payload: newToDo });
         }
 
-        setTodoText(""); // clears the input after either an add or edit
+        setTodoText(""); // Flushes the input input box field empty across both add and edit flows
     };
 
     return (
-        // Container + maxWidth: centers content and stops it stretching full-screen — not in textbook
+        // Centered layout block container wrapped to max out layout at 650px wide
         <Container className="mt-5" style={{ maxWidth: '650px' }}>
 
-            {/* Card + shadow: groups form and table into one lifted panel — not in textbook */}
+            {/* Elevated visual Card panel incorporating depth dropshadows */}
             <Card className="shadow">
 
-                {/* Dark header bar with live todo count — not in textbook */}
+                {/* Dark structural header layout displaying an interactive count badge */}
                 <Card.Header className="d-flex align-items-center justify-content-between bg-dark text-white py-3">
-                    {/* mb-0 removes default heading bottom margin so it stays vertically centred */}
                     <h5 className="mb-0">📝 My Todos</h5>
-                    {/* Badge updates live as todos are added/deleted */}
                     <Badge bg="secondary">{state.todos.length} remaining</Badge>
                 </Card.Header>
 
-                {/* Form section — Card.Body provides padding around the form — not in textbook */}
+                {/* Dynamic user input submission form wrapper area */}
                 <Card.Body>
-
-                    {/* Yellow left border signals to the user they are in edit mode — not in textbook */}
+                    {/* Visual UI Assist: Form switches on a left-hand yellow highlight border when editing */}
                     <Form
                         onSubmit={handleSubmit}
                         style={editMode ? { borderLeft: '4px solid #ffc107', paddingLeft: '10px' } : {}}
                     >
-                        {/* Small hint label that only appears during edit mode — not in textbook */}
+                        {/* Inline conditional label helper that signals Edit status context */}
                         {editMode && (
                             <p className="text-warning mb-2" style={{ fontSize: '0.85rem' }}>
                                 ✏️ Editing todo — make your changes and click Save Edit
                             </p>
                         )}
 
-                        {/* d-flex + gap-2: places input and buttons side by side — not in textbook */}
+                        {/* Flexbox container group grouping input text box side-by-side with buttons */}
                         <Form.Group className="d-flex gap-2">
                             <Form.Control
                                 type="text"
                                 placeholder={editMode ? "Edit your todo..." : "Enter a new todo..."}
                                 onChange={event => setTodoText(event.target.value)}
-                                value={todoText} // controlled input — ensures field clears after submit (BUG FIX: was missing)
+                                value={todoText} // Controlled element binding: React state drives input display text value
                             />
 
-                            {/* Button colour changes with mode: green for add, yellow for edit — not in textbook */}
+                            {/* Dynamically shifts color schemes: success (green) for adding items, warning (yellow) for editing */}
                             <Button type="submit" variant={editMode ? "warning" : "success"}>
                                 {buttonTitle}
                             </Button>
 
-                            {/* Cancel button only renders during edit mode — not in textbook */}
+                            {/* Conditional rendering: Render Cancel action asset only if user is actively editing */}
                             {editMode && (
                                 <Button variant="outline-secondary" onClick={handleCancel}>
                                     Cancel
@@ -104,53 +116,47 @@ function ToDoList() {
                     </Form>
                 </Card.Body>
 
-                {/* p-0 removes Card inner padding so the table sits flush against the card edges — not in textbook */}
+                {/* Main Data Presentation Area - Table elements sit flush with Card side borders */}
                 <Card.Body className="p-0">
-
-                    {/* striped: alternating row shading; hover: highlights row on mouseover;
-                        responsive: horizontal scroll on small screens instead of overflowing;
-                        mb-0: removes default table bottom margin;
-                        align-middle: vertically centres all cell content */}
                     <Table striped hover responsive className="mb-0 align-middle">
                         <thead>
-                            {/* table-dark: dark header row separates headings from data rows — not in textbook */}
                             <tr className="table-dark">
                                 <th>Task</th>
-                                {/* Fixed widths prevent Edit/Delete columns from expanding unnecessarily — not in textbook */}
                                 <th className="text-center" style={{ width: '90px' }}>Edit</th>
                                 <th className="text-center" style={{ width: '100px' }}>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
                             {state.todos.length > 0 ? (
+                                // Map Loop: Converts array elements into corresponding HTML table rows
                                 state.todos.map(todo => (
                                     <tr key={todo.id}>
                                         <td>{todo.text}</td>
 
-                                        {/* text-center: keeps button centred in the fixed-width column — not in textbook */}
+                                        {/* EDIT COLUMN */}
                                         <td className="text-center">
-                                            {/* Proper Button replaces plain text — not in textbook */}
                                             <Button
                                                 variant="outline-primary"
                                                 size="sm"
                                                 onClick={() => {
-                                                    setEditMode(true);
-                                                    setEditTodo(todo);
-                                                    setTodoText(todo.text); // pre-fills input with existing text — not in textbook
+                                                    setEditMode(true);          // Turn on editing panel flag
+                                                    setEditTodo(todo);          // Pin target object reference
+                                                    setTodoText(todo.text);     // Direct target text into text input box
                                                 }}
                                             >
                                                 Edit
                                             </Button>
                                         </td>
 
-                                        {/* text-center: keeps button centred in the fixed-width column — not in textbook */}
+                                        {/* DELETE COLUMN */}
                                         <td className="text-center">
-                                            {/* Proper Button replaces plain text — not in textbook */}
                                             <Button
                                                 variant="danger"
                                                 size="sm"
                                                 onClick={async () => {
+                                                    // 1. Erase item from remote json data file using targeted DELETE request
                                                     await axios.delete(`${endpoint}/${todo.id}`)
+                                                    // 2. Wipe item data from state array to update screen
                                                     dispatch({type: 'delete', payload:todo})
                                                 }}>
                                                 Delete
@@ -159,8 +165,8 @@ function ToDoList() {
                                     </tr>
                                 ))
                             ) : (
-                                // Empty state row shown when all todos are deleted — not in textbook
-                                // colSpan="3" spans all columns; py-4 adds breathing room; text-muted softens colour
+                                // EMPTY STATE FALLBACK
+                                // Renders dynamically when the todos collection length reaches 0 items
                                 <tr>
                                     <td colSpan="3" className="text-center text-muted py-4">
                                         🎉 All done! No todos remaining.

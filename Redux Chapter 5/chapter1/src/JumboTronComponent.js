@@ -1,35 +1,32 @@
 import React, { Component } from 'react';
-// NOTE: We import 'Container' instead of 'Jumbotron' because 'Jumbotron' was removed
-// in react-bootstrap v2.0. The textbook likely used an older version (v1.x).
-// This is a common issue when libraries update - components get removed or renamed.
+// NOTE: 'Jumbotron' was completely removed in react-bootstrap v2.0. 
+// We are importing 'Container' and 'Button' instead, using a custom CSS class 'jumbotron' as a workaround.
 import { Container, Button } from 'react-bootstrap';
 
 class JumboTronComponent extends Component {
-    // NOTE: We removed the constructor that was in the textbook.
-    // When a constructor only calls super(props) with no additional logic,
-    // it's unnecessary in modern React. This is called a "useless constructor"
-    // and is considered bad practice. The linter (ESLint) warns us about this.
+    // CLASS NOTE: We removed the textbook's constructor. 
+    // Writing: constructor(props) { super(props); } without initializing state or binding methods 
+    // is called a "useless constructor" and triggers linting warnings. Modern React handles this automatically.
 
     render(){
-
         return (
-            // NOTE: Instead of <Jumbotron> from the textbook, we use a <div> with 
-            // className='jumbotron' and wrap content in <Container>. We added custom CSS
-            // to style it. This is a common workaround when library components are removed.
+            // Wrapping our content in a standard div with a class name so we can style it via CSS
             <div className='jumbotron'>
                 <Container>
                     <h1>Welcome to React</h1>
+                    
+                    {/* this.props.children is a built-in React prop. 
+                      It automatically renders whatever content/elements are nested *inside* our <JumboTronComponent> tags back in App.js.
+                    */}
                     <p>{this.props.children}</p>
+                    
                     <p>
                         <Button variant='primary'>Learn more.</Button>
                     </p>
                 </Container>
             </div>
-
         );
-
     }
-
 }
 
 export default JumboTronComponent;

@@ -1,48 +1,30 @@
 import React from 'react';
 
-// CHANGED:
-// We REMOVED Jumbotron from the import because newer versions
-// of react-bootstrap no longer include the Jumbotron component.
-// The textbook is using an older version of react-bootstrap.
+// Importing essential layout and design primitives from React-Bootstrap
 import { Button, Container } from 'react-bootstrap';
 
-function JumbotronComponent(props){
-
+function JumbotronComponent(props) {
     return (
         <div>
-
-            {/* 
-                CHANGED:
-                We replaced <Jumbotron> with a normal div.
-
-                WHY?
-                Jumbotron was removed from react-bootstrap v2+.
-                Modern Bootstrap uses utility classes instead.
-
-                bg-light  = light grey background
-                p-5       = padding
-                rounded   = rounded corners
-                mt-4      = margin top
+            {/* Custom structural replacement for the deprecated Bootstrap Jumbotron.
+                bg-light  = Gives a soft light grey background
+                p-5       = Large padding on all sides for spacing
+                rounded   = Adds border-radius corners
+                mt-4      = Margins top to push elements downward
             */}
             <div className="bg-light p-5 rounded mt-4">
 
-                {/* 
-                    CHANGED:
-                    We wrapped the content inside a Container
-                    to keep Bootstrap spacing/layout clean.
-                */}
+                {/* Container holds content centered and aligned to the grid responsive breakpoints */}
                 <Container>
 
                     <h1>Hello, world!</h1>
 
-                    {/* 
-                        This displays whatever content is placed
-                        between the opening and closing tags
-                        of the component inside App.js
+                    {/* Dynamically injects content passed down from the parent (App.js) 
+                        via standard React layout nesting (props.children).
                     */}
                     <p>{props.children}</p>
 
-                    {/* Bootstrap button still works normally */}
+                    {/* The primary functional action button */}
                     <p>
                         <Button variant="primary">
                             Learn More

@@ -1,14 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/css/bootstrap.min.css"; // Global inclusion of Bootstrap CSS framework styles
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-//firebase dependancies
+
+// Firebase initialization dependencies
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
 
+// Web app Firebase configuration object containing credential values pointing to your console instance
 const firebaseConfig = {
     apiKey: "AIzaSyCmaWpyNF7wsZjmzbMokJa9iE-H_JBf2fc",
     authDomain: "chapter9reactredux.firebaseapp.com",
@@ -21,7 +23,10 @@ const firebaseConfig = {
     measurementId: "G-VY799M2MKS",
 };
 
+// Instantiates the singleton client instance of Firebase across your application execution context
 firebase.initializeApp(firebaseConfig);
+
+// Mounts the virtual React tree onto the target actual HTML physical node element wrapper
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <React.StrictMode>
@@ -29,7 +34,5 @@ root.render(
     </React.StrictMode>,
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+// Performance analytics logger utility hook
 reportWebVitals();

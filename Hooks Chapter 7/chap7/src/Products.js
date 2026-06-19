@@ -1,46 +1,39 @@
 import React from "react";
 import Product from "./Product";
 
+/**
+ * Products Component: Orchestrates the generation of mock product structures.
+ */
 function Products() {
+  
+  /**
+   * Helper function returning an array containing static local mock object configurations.
+   * (Currently empty to demonstrate the fallback empty layout conditional state).
+   */
   const getProducts = () => {
     return [
+      // Mock objects commented out for empty list evaluation test:
       // {
-      //     imageUrl: "/public/courage-man-jump-through-gap-hill-business-concept-idea_1323-262.avif",
+      //     imageUrl: "/public/...avif",
       //     productName: "Product 1",
-      //     releasedDate: "May 31, 2016",
-      //     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean porttitor, tellus laoreet venenatis facilisis, enim ex faucibus nulla, id rutrum ligula purus sit amet mauris. ",
-      //     rating: 4,
-      //     numOfReviews: 2
-      // },
-      // {
-      //     imageUrl: "/public/courage-man-jump-through-gap-hill-business-concept-idea_1323-262.avif",
-      //     productName: "Product 2",
-      //     releasedDate: "October 31, 2016",
-      //     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean porttitor, tellus laoreet venenatis facilisis, enim ex faucibus nulla, id rutrum ligula purus sit amet mauris. ",
-      //     rating: 2,
-      //     numOfReviews: 12
-      // },
-      // {
-      //     imageUrl: "/public/courage-man-jump-through-gap-hill-business-concept-idea_1323-262.avif",
-      //     productName: "Product 3",
-      //     releasedDate: "July 30, 2016",
-      //     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean porttitor, tellus laoreet venenatis facilisis, enim ex faucibus nulla, id rutrum ligula purus sit amet mauris. ",
-      //     rating: 5,
-      //     numOfReviews: 2
+      //     ...
       // }
     ];
   };
 
   const products = getProducts();
 
+  // Map individual configuration payloads directly into organized reusable product templates
   const listProducts = products.map((product) => (
     <Product key={product.productName} data={product} />
   ));
 
   return (
     <div>
-      {/* {listProducts.length > 0 && <ul>{listProducts}</ul>}
-        {listProducts.length == 0 && <ul>No Products To Display</ul>} */}
+      {/* Ternary Operator Conditional Render Statement:
+          Checks if the array contains items. If true, outputs the mapped product list.
+          If array is empty, renders the fallback warning message.
+      */}
       {listProducts.length > 0 ? (
         <ul>{listProducts}</ul>
       ) : (

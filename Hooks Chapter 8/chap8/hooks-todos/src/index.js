@@ -3,33 +3,17 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-// import * as serviceWorker from './serviceWorker';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Global inclusion of standard Bootstrap CSS blueprints
 
-// export const UserContext = React.createContext();
-// const username = 'John Doe';
-
-// const root = ReactDOM.createRoot(document.getElementById('root'));
-// root.render(
-//   <React.StrictMode>
-//     <UserContext.Provider value={username}>
-//       <App />
-//     </UserContext.Provider>
-//   </React.StrictMode>
-// );
-
-// // If you want to start measuring performance in your app, pass a function
-// // to log results (for example: reportWebVitals(console.log))
-// // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-// reportWebVitals();
-
+// Locate standard HTML element node root and initialize the modern React 18 rendering tree
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
+  // StrictMode activates local verification checkups to identify side-effects or deprecated lifecycle hooks
   <React.StrictMode>
     <App />
   </React.StrictMode>,
 );
 
-// serviceWorker.unregister();
+// Performance metric tracker tool (can capture analytics like page layout shift, speed indexes, etc.)
 reportWebVitals();

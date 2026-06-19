@@ -2,45 +2,42 @@ import React from "react";
 import Product from "./Product";
 
 function Products() {
+  // A mock data generator function intended to mimic data fetching
   const getProducts = () => {
     return [
-      // {
-      //     imageUrl: "/public/courage-man-jump-through-gap-hill-business-concept-idea_1323-262.avif",
-      //     productName: "Product 1",
-      //     releasedDate: "May 31, 2016",
-      //     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean porttitor, tellus laoreet venenatis facilisis, enim ex faucibus nulla, id rutrum ligula purus sit amet mauris. ",
-      //     rating: 4,
-      //     numOfReviews: 2
-      // },
-      // {
-      //     imageUrl: "/public/courage-man-jump-through-gap-hill-business-concept-idea_1323-262.avif",
-      //     productName: "Product 2",
-      //     releasedDate: "October 31, 2016",
-      //     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean porttitor, tellus laoreet venenatis facilisis, enim ex faucibus nulla, id rutrum ligula purus sit amet mauris. ",
-      //     rating: 2,
-      //     numOfReviews: 12
-      // },
-      // {
-      //     imageUrl: "/public/courage-man-jump-through-gap-hill-business-concept-idea_1323-262.avif",
-      //     productName: "Product 3",
-      //     releasedDate: "July 30, 2016",
-      //     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean porttitor, tellus laoreet venenatis facilisis, enim ex faucibus nulla, id rutrum ligula purus sit amet mauris. ",
-      //     rating: 5,
-      //     numOfReviews: 2
-      // }
+      /* Expected Object Schema Example:
+         {
+             imageUrl: "/public/courage-man-jump-through-gap-hill-business-concept-idea_1323-262.avif",
+             productName: "Product 1",
+             releasedDate: "May 31, 2016",
+             description: "Lorem ipsum...",
+             rating: 4,
+             numOfReviews: 2
+         }
+      */
     ];
   };
 
+  // Extract the generated products array
   const products = getProducts();
 
+  {/* ARRAY MAPPING:
+      Transforms the raw data array into an array of React elements.
+      The 'key' prop is required by React's Virtual DOM to efficiently 
+      track changes, updates, and removals within dynamic lists.
+  */}
   const listProducts = products.map((product) => (
     <Product key={product.productName} data={product} />
   ));
 
   return (
     <div>
-      {/* {listProducts.length > 0 && <ul>{listProducts}</ul>}
-        {listProducts.length == 0 && <ul>No Products To Display</ul>} */}
+      {/* CONDITIONAL RENDERING (Ternary Operator):
+          Condition ? 'Executed if True' : 'Executed if False'
+
+          If listProducts contains mapped elements, render the list.
+          If listProducts is empty (length is 0), render the fallback notice message.
+      */}
       {listProducts.length > 0 ? (
         <ul>{listProducts}</ul>
       ) : (

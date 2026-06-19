@@ -1,12 +1,19 @@
 import React, { Component } from 'react'; 
 import JumboTronComponent from './JumboTronComponent';
+import Products from './Products';
 
-
+// This is the root component of your application.
+// Currently, it is only rendering the JumboTronComponent.
 class App extends Component {
   render() {        
     return (
       <div>
-        <JumboTronComponent />      
+        {/* We self-close the component since we aren't passing children text here yet */}
+        <JumboTronComponent>
+          This is a simple hero unit, a simple jumbotron-style component for 
+          calling extra attention to featured content or information.
+        </JumboTronComponent>
+        <Products />     
       </div>
     );
   }
@@ -15,11 +22,10 @@ class App extends Component {
 export default App;
 
 
-
-
-
-
-
+/* ==========================================================================
+   NOTE FOR CLASSMATES: The code below is commented out in your original file,
+   but here is how it works for your reference when switching features:
+   ========================================================================== */
 
 // import React, { Component } from 'react';
 // import Products from './Products';
@@ -28,16 +34,25 @@ export default App;
 
 // class App extends Component {
 //   render() {
+//     // A local boolean flag used to demonstrate conditional prop disabling
 //     // const isValid = true;
 
 //     return (
 //       <div>
+//         {/* Basic JSX elements */}
 //         {/* <h1>Hello, React!</h1> */}
 //         {/* <p>Welcome to your first React application.</p> */}
+//         
+//         {/* Rendering the Products list component */}
 //         {/* <Products /> */}
+//         
+//         {/* React-Bootstrap Buttons demonstrating variant styles and disabled states */}
 //         {/* <Button variant='danger'>Default</Button> */}
 //         {/* <Button variant='primary' disabled>Default</Button> */}
+//         {/* Using a logical NOT (!) operator to toggle the disabled state based on 'isValid' */}
 //         {/* <Button variant='primary' disabled={!isValid}>Default</Button> */}
+//         
+//         {/* Hardcoding static numeric strings into the 'rating' prop to test the Rating component layout */}
 //         <Rating rating="1"/>
 //         <Rating rating="2"/>
 //         <Rating rating="3"/>
@@ -46,36 +61,6 @@ export default App;
 //       </div>
 //     );
 //   }
-// }
-
-// export default App;
-
-
-
-
-// import React from 'react';
-// import logo from './logo.svg';
-// import './App.css';
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
 // }
 
 // export default App;

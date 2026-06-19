@@ -1,15 +1,26 @@
 import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 
+/**
+ * UserForm Component: Collects user credentials while conducting 
+ * real-time input-length and space-character constraints verification before submission.
+ */
 function UserForm() {
+    // State values handling inputs
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    
+    // State values handling error string feedback messages
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
 
+    /**
+     * Submission Validation Engine
+     */
     const handleSubmit = event => {
-        event.preventDefault();
+        event.preventDefault(); // Inhibits natural page refreshes to protect current state integrity
         
+        // --- Email Field Interrogation ---
         var emailValid = false;
         if (email.length === 0) {
             setEmailError("Email is required"); 
@@ -17,14 +28,16 @@ function UserForm() {
         else if (email.length < 6) {
             setEmailError("Email should be minimum 6 characters");
         }
+        // Checks if whitespace characters exist inside the payload string
         else if (email.indexOf(' ') >= 0) {
             setEmailError('Email cannot contain spaces');
         }
         else {
-            setEmailError("");
+            setEmailError(""); // Wipe slate clear when valid criteria is passed
             emailValid = true;
         }
 
+        // --- Password Field Interrogation ---
         var passwordValid = false;
         if (password.length === 0) {
             setPasswordError("Password is required");
@@ -40,8 +53,11 @@ function UserForm() {
             passwordValid = true;
         }
 
+        // --- Resolution Gate ---
+        // Runs only if both logic gates register true flags
         if (emailValid && passwordValid) {
             alert('Email: ' + email + '\nPassword: ' + password);
+            // Form clear operations tracking back to local state adjustments
             setEmail("");
             setPassword("");
         }
@@ -50,6 +66,7 @@ function UserForm() {
     return (
         <div>
             <Form onSubmit={handleSubmit}>
+                {/* Email inputs tracking block */}
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
                     <Form.Control 
@@ -63,9 +80,11 @@ function UserForm() {
                     </Form.Text>
                 </Form.Group>
                 
+                {/* Error Banner render conditional check */}
                 {emailError.length > 0 &&
                     <Alert variant="danger">{emailError}</Alert>}
 
+                {/* Password inputs tracking block */}
                 <Form.Group controlId="formBasicPassword">
                     <Form.Label>Password</Form.Label>
                     <Form.Control 
@@ -83,7 +102,9 @@ function UserForm() {
                     Submit
                 </Button>
             </Form>
+            
             <br />
+            {/* Live mirror diagnostic log feedback on layout UI */}
             Email entered: {email}
             <br />
             Password entered: {password}

@@ -4,14 +4,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// Locates the HTML container div id="root" and initializes the React Virtual DOM tree 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  // StrictMode triggers extra development-only checks to catch bugs early
   <React.StrictMode>
     <App />
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+// Performance monitoring framework hook (optional)
 reportWebVitals();

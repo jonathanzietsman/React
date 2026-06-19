@@ -1,11 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
+import './index.css'; // Importing global CSS styles
+import App from './App'; // Importing the root App component
 import reportWebVitals from './reportWebVitals';
 
+// Finding the HTML element with the id 'root' (usually in public/index.html) 
+// and creating the React root container there.
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+// Rendering the App component into the root container
 root.render(
+  // StrictMode is a development tool that highlights potential problems in an application
   <React.StrictMode>
     <App />
   </React.StrictMode>

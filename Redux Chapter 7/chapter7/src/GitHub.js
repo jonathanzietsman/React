@@ -1,37 +1,43 @@
 import React from 'react';
-import axios from 'axios';
+import axios from 'axios'; // Axios is used to send HTTP requests to external APIs
 import { Spinner } from 'react-bootstrap';
 import { Form, Button } from 'react-bootstrap';
 
 class GitHub extends React.Component {
     constructor() {
         super();
+        // Component state dictionary to track input queries, data results, and loading cycles
         this.state = { 
             data: [], 
             searchTerm: '',
             isLoading: false
         };
+        // Explicitly binding methods to the class instance so 'this' remains accessible inside callbacks
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    // Listens to keyboard input within the search field and synchronizes it with local state
     handleChange(e) {
         this.setState({
             searchTerm: e.target.value
         });
     }
 
+    // Form submission interceptor
     handleSubmit(e) {
-        e.preventDefault();
+        e.preventDefault(); // Prevents standard HTML browser form refresh behaviors
         this.setState({
-            isLoading: true
+            isLoading: true // Activates the loading spinner UI flag
         })
-        this.getGitHubData(this.state.searchTerm);
+        this.getGitHubData(this.state.searchTerm); // Triggers network request
     }
 
+    // Core business logic method executing async HTTP requests to the public GitHub API
     getGitHubData(_searchTerm) {
         axios.get("https://api.github.com/search/users?q=" + _searchTerm)
             .then(res => {
+                // Resolves payload arrays, updates data state, and deactivates loading spin cycle
                 this.setState({ 
                     isLoading: false,
                     data: res.data.items
@@ -41,16 +47,21 @@ class GitHub extends React.Component {
     }
 
     render() {
+        // Transforms the user payload data array into structured UI elements using .map()
         const listUsers = this.state.data.map((user) => (
-            // DEMO NOTE: Textbook used <Media>. Since it's removed in Bootstrap 5, 
-            // we use 'd-flex' to force the image and text to sit side-by-side.
+            /* Each mapped item must contain a unique 'key' identifier at its root element 
+               to help React's virtual DOM track node changes efficiently.
+               - 'd-flex' & 'align-items-start': Flexbox utilities replacing legacy layout methods 
+                 to force user avatar images and data text blocks to sit cleanly side-by-side.
+            */
             <div key={user.id} className='d-flex align-items-start mb-4'>
                 
+                {/* Hyperlink pointing directly to the user's personal GitHub web profile page */}
                 <a href={user.html_url}>
                     <img
                         width={64}
                         height={64}
-                        // DEMO NOTE: 'me-3' (Margin End) is the new version of 'mr-3' (Margin Right).
+                        // 'me-3' (Margin End) is modern Bootstrap 5 utility shorthand for 'margin-right'
                         className='me-3' 
                         src={user.avatar_url}
                         alt={user.login}
@@ -65,6 +76,11 @@ class GitHub extends React.Component {
         ));
 
         return (
+            /* Bootstrap wrappers:
+               - 'container': Centers content horizontally and adds responsive page gutters.
+               - 'my-4': Margin applied symmetrically across top and bottom vertical axes.
+               - 'text-white': Applies white coloration to child typography strings.
+            */
             <div className='container my-4 text-white'>
                 <Form inline onSubmit={this.handleSubmit}>
                     <Form.Group controlId='formInlineName'>    
@@ -80,17 +96,19 @@ class GitHub extends React.Component {
                         Search
                     </Button>
                 </Form>
+                
                 <h3>GitHub Users Results</h3>
                 
-                {/* DEMO NOTE: 'ReactLoading' caused version conflicts in React 18+, 
-                    so we switched to the official Bootstrap 'Spinner' component. */}
+                {/* Conditional Short-Circuit evaluation:
+                   If 'this.state.isLoading' evaluates to true, the right side is evaluated and rendered.
+                   Replaces standard legacy dependencies with React-Bootstrap native loading indicators.
+                */}
                 {this.state.isLoading && (
                     <Spinner animation="border" variant="light" />
                 )}
+                
+                {/* Outputs the generated user list collection mapping built above */}
                 {listUsers}
-                {/* <div className='mt-4'>
-                    {listUsers}
-                </div> */}
             </div>
         );
     }

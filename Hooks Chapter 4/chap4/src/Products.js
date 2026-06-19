@@ -3,6 +3,7 @@ import Product from './Product';
 
 function Products() {
 
+    // Mock function that returns an array of hardcoded product data objects
     const getProducts = () => {
         return [
             { 
@@ -29,17 +30,20 @@ function Products() {
                 rating: 5,
                 numOfReviews: 2
             }];
-      
     }
 
+    // Retrieve the raw products array
     const products = getProducts()
 
+    // Map through the array to transform each raw JavaScript data object into a JSX <Product /> component.
+    // We pass a 'key' prop for React's reconciliation engine, and the raw item via the 'data' prop.
     const listProducts = products.map((product) => 
         <Product key={product.productName} data={product} />
     );    
   
     return (
       <div>
+          {/* Render the mapped array of Product components inside an unordered list */}
           <ul>{listProducts}</ul>     
       </div>
     );

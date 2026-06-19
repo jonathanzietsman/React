@@ -1,9 +1,9 @@
 import React from 'react';
 
-// Bootstrap CSS import
+// Bootstrap CSS import to ensure global styling is available across the app
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-// Importing our custom component
+// Importing our custom component that replicates the legacy Bootstrap Jumbotron behavior
 import JumbotronComponent from './Jumbotron';
 
 function App() {
@@ -12,9 +12,10 @@ function App() {
 
     <div>
 
-        {/* 
-            The text between the tags becomes props.children
-            inside the JumbotronComponent
+        {/* COMPOSITION (props.children):
+            Any text, HTML element, or custom component placed between the opening 
+            and closing tags of <JumbotronComponent> is automatically bundled into 
+            a special prop called `props.children` and passed to the child component.
         */}
         <JumbotronComponent>
 

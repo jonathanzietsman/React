@@ -4,8 +4,11 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// Locates the <div id="root"></div> in your public/index.html file and creates the React root
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
+  // React.StrictMode is a development-only tool that highlights potential problems in an application
   <React.StrictMode>
     <App />
   </React.StrictMode>

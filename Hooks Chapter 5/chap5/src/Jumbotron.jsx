@@ -11,23 +11,21 @@ function JumbotronComponent(props){
     return (
         <div>
 
-            {/* 
-                CHANGED:
+            {/* CHANGED:
                 We replaced <Jumbotron> with a normal div.
 
                 WHY?
                 Jumbotron was removed from react-bootstrap v2+.
                 Modern Bootstrap uses utility classes instead.
 
-                bg-light  = light grey background
-                p-5       = padding
-                rounded   = rounded corners
-                mt-4      = margin top
+                bg-light  = light grey background color
+                p-5       = generous padding on all sides (Level 5)
+                rounded   = applies border-radius for rounded corners
+                mt-4      = margin-top to separate it from anything above
             */}
             <div className="bg-light p-5 rounded mt-4">
 
-                {/* 
-                    CHANGED:
+                {/* CHANGED:
                     We wrapped the content inside a Container
                     to keep Bootstrap spacing/layout clean.
                 */}
@@ -35,7 +33,7 @@ function JumbotronComponent(props){
 
                     <h1>Hello, world!</h1>
 
-                    {/* 
+                    {/* PROPS.CHILDREN:
                         This displays whatever content is placed
                         between the opening and closing tags
                         of the component inside App.js

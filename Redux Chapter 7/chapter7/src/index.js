@@ -4,15 +4,16 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-
+// Locates the HTML node with id 'root' (usually in public/index.html) and initializes the React root
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
+  // React.StrictMode is a development-mode tool that highlights potential problems in the application.
+  // Note: It intentionally runs components twice to catch side effects, but has no effect on production builds.
   <React.StrictMode>
     <App />
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+// Performance monitoring hook (optional)
 reportWebVitals();
